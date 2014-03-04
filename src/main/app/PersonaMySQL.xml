@@ -8,18 +8,47 @@ http://www.mulesoft.org/schema/mule/ee/jdbc http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
     <jdbc-ee:mysql-data-source name="MySQL_Data_Source" user="moodle" password="moodle" url="jdbc:mysql://localhost:3306/becar" transactionIsolation="UNSPECIFIED" doc:name="MySQL Data Source"/>
-    <jdbc-ee:connector name="Database" dataSource-ref="MySQL_Data_Source" validateConnections="true" queryTimeout="-1" pollingFrequency="0" doc:name="Database"/>
+    <jdbc-ee:connector name="MysqlDB" dataSource-ref="MySQL_Data_Source" validateConnections="true" queryTimeout="-1" pollingFrequency="0" doc:name="Database"/>
     <flow name="PersonaMySQLFlow1" doc:name="PersonaMySQLFlow1">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP"/>
         <jersey:resources doc:name="REST">
             <component class="ar.gob.jgm.ConsultaPersona"/>
         </jersey:resources>
         <logger level="INFO" doc:name="Logger"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="GetUsersByUsername" queryTimeout="-1" connector-ref="Database" doc:name="Mysql">
-            <jdbc-ee:query key="GetUsersByUsername" value="SELECT * FROM mdl_user  WHERE username=#[message.inboundProperties['username']]"/>
-            <jdbc-ee:query key="GetUsersHardcoded" value="SELECT * FROM mdl_user  WHERE username='admin'"/>
-        </jdbc-ee:outbound-endpoint>
-        <logger level="INFO" doc:name="Logger"/>
-        <json:object-to-json-transformer doc:name="Object to JSON"/>
+        <choice doc:name="Choice">
+            <when expression="#[message.inboundProperties['http.method']=='GET']">
+                <choice doc:name="Choice">
+                    <when expression="#[message.inboundProperties['username']!=null]">
+                        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="GetUsersByUsername" queryTimeout="-1" connector-ref="MysqlDB" doc:name="Mysql GET">
+                            <jdbc-ee:query key="GetUsersByUsername" value="SELECT * FROM mdl_user  WHERE username=#[message.inboundProperties['username']]"/>
+                            <jdbc-ee:query key="GetUsersHardcoded" value="SELECT * FROM mdl_user  WHERE username='admin'"/>
+                        </jdbc-ee:outbound-endpoint>
+                        <logger level="INFO" doc:name="Logger"/>
+                        <json:object-to-json-transformer doc:name="Object to JSON"/>
+                    </when>
+                    <otherwise>
+                        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="GetUsers" queryTimeout="-1" connector-ref="MysqlDB" doc:name="MySQL GEt ALL">
+                            <jdbc-ee:query key="GetUsers" value="SELECT * FROM mdl_user"/>
+                        </jdbc-ee:outbound-endpoint>
+                        <logger level="INFO" doc:name="Logger"/>
+                        <json:object-to-json-transformer doc:name="Object to JSON"/>
+                    </otherwise>
+                </choice>
+            </when>
+            <when expression="#[message.inboundProperties['http.method']=='DELETE']">
+                <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="DELETE USER" queryTimeout="-1" connector-ref="MysqlDB" doc:name="MySQL DELETE">
+                    <jdbc-ee:query key="DELETE USER" value="DELETE FROM mdl_user where username=#[message.inboundProperties['username']]"/>
+                </jdbc-ee:outbound-endpoint>
+                <logger level="INFO" doc:name="Logger"/>
+                <json:object-to-json-transformer doc:name="Object to JSON"/>
+            </when>
+            <when expression="#[message.inboundProperties['http.method']=='POST']">
+                <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="INSERT USER" queryTimeout="-1" connector-ref="MysqlDB" doc:name="MySQL INSERT">
+                    <jdbc-ee:query key="INSERT USER" value="INSERT INTO `mdl_user` (username) values(#[message.inboundProperties['username']])"/>
+                </jdbc-ee:outbound-endpoint>
+                <logger level="INFO" doc:name="Logger"/>
+                <json:object-to-json-transformer doc:name="Object to JSON"/>
+            </when>
+        </choice>
     </flow>
 </mule>

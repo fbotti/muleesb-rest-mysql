@@ -2,4 +2,34 @@ MuleESB REST API with MySQL Example
 ====================
 
 This example demonstrate the basis for putting a REST API with MySQL as your Database.
+
+
+Usage: 
+=======
+
+GET:
+===
+GET: http://localhost:8081/users?username=admin
+GET: http://localhost:8081/users
+
+Example with CURL:  curl -i http://localhost:8081/users?username=admin
+
+
+POST:
+===
+POST: http://localhost:8081/users
+
+Example with CURL:  curl -d "username=jgonzalez" -X POST -i http://localhost:8081/users?username=jgonzalez
+
+DELETE:
+===
+DELETE http://localhost:8081/users
+
+Example with CURL: curl -X DELETE -i http://localhost:8081/users?username=jgonzalez
+
+
+PUT:
+===
+PUT: http://localhost:8081/users?username=
+
  
