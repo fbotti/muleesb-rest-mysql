@@ -42,5 +42,12 @@ public class ConsultaPersona {
 	public String postPersonaCuilJSON(){
 		return ""; 
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("test")
+	public String getPersonaCuil(){
+		return "fede"; 
+	}
 }
 

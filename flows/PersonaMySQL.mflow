@@ -30,7 +30,7 @@
             <property name="dataSource-ref to JDBC DataSource" value="MySQL_Data_Source"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="PersonaMySQLFlow1" entity-id="567e6e14-0192-4c0e-8686-451d6c111bed">
+    <flow SubFlow="false" name="PersonaMySQLFlow1" entity-id="a7cea994-46a4-4523-8353-734dc5168c8b">
         <properties>
             <property name="processingStrategy"/>
             <property name="initialState"/>
@@ -73,14 +73,21 @@
             <pattern name="REST" type="http://www.mulesoft.org/schema/mule/jersey/resources" entity-id="REST#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
+                    <property name="ref" value=""/>
+                    <property name="updated"/>
                     <property name="auxiliary;index" value="5"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/core/component;0">
                         <property name="class" value="ar.gob.jgm.ConsultaPersona"/>
                         <property name="isProcessed$$$$" value="true"/>
-                        <property name="auxiliary;wrapIn" value="6"/>
                         <property name="auxiliary;index" value="6"/>
+                        <property name="auxiliary;wrapIn" value="6"/>
+                    </property-collection>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/refInterceptorStackType;1225779353">
+                        <property name="ref" value=""/>
+                        <property name="isProcessed$$$$" value="true"/>
                     </property-collection>
                 </properties>
+                <description></description>
             </pattern>
             <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
@@ -94,79 +101,76 @@
             <splitter index="8" name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
-                    <property name="updated"/>
                     <property name=";INDEX" value="8"/>
-                    <property name="tracking:enable-default-events" value="false"/>
-                    <property-collection name="20f3346a-0ade-4917-9bda-c393ec99be5c">
+                    <property-collection name="86c86493-5205-4061-8fc0-3808d00b272c">
+                        <property name="choice.expression" value="#[message.inboundProperties['http.method']=='GET']"/>
+                        <property-collection name="choice.attributes">
+                            <property name="expression" value="#[message.inboundProperties['http.method']=='GET']"/>
+                        </property-collection>
+                    </property-collection>
+                    <property-collection name="94a65173-811b-4fc9-983a-a1163a3a6827">
                         <property name="choice.expression" value="#[message.inboundProperties['http.method']=='POST']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[message.inboundProperties['http.method']=='POST']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="7befa617-6999-40a0-9e01-cf39aa806697">
+                    <property-collection name="d400edd0-f2dd-4721-adc8-aec13f830096">
                         <property name="choice.expression" value="#[message.inboundProperties['http.method']=='DELETE']"/>
                         <property-collection name="choice.attributes">
-                            <property name="expression" value="#[message.inboundProperties['http.method']=='DEL']"/>
-                        </property-collection>
-                    </property-collection>
-                    <property-collection name="4a0d5fb8-d13a-4f5c-a1fe-de5761aff77f">
-                        <property name="choice.expression" value="#[message.inboundProperties['http.method']=='GET']"/>
-                        <property-collection name="choice.attributes">
-                            <property name="expression" value="#[message.inboundProperties['http.method']=='GET']"/>
+                            <property name="expression" value="#[message.inboundProperties['http.method']=='DELETE']"/>
                         </property-collection>
                     </property-collection>
                 </properties>
                 <description></description>
                 <pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#2">
                     <properties>
-                        <property name="updated"/>
                         <property name=";INDEX" value="8"/>
-                        <property name="tracking:enable-default-events" value="false"/>
-                        <property-collection name="20f3346a-0ade-4917-9bda-c393ec99be5c">
-                            <property name="choice.expression" value="#[message.inboundProperties['http.method']=='POST']"/>
-                            <property-collection name="choice.attributes">
-<property name="expression" value="#[message.inboundProperties['http.method']=='POST']"/>
-                            </property-collection>
-                        </property-collection>
-                        <property-collection name="7befa617-6999-40a0-9e01-cf39aa806697">
-                            <property name="choice.expression" value="#[message.inboundProperties['http.method']=='DELETE']"/>
-                            <property-collection name="choice.attributes">
-<property name="expression" value="#[message.inboundProperties['http.method']=='DEL']"/>
-                            </property-collection>
-                        </property-collection>
-                        <property-collection name="4a0d5fb8-d13a-4f5c-a1fe-de5761aff77f">
+                        <property-collection name="86c86493-5205-4061-8fc0-3808d00b272c">
                             <property name="choice.expression" value="#[message.inboundProperties['http.method']=='GET']"/>
                             <property-collection name="choice.attributes">
 <property name="expression" value="#[message.inboundProperties['http.method']=='GET']"/>
                             </property-collection>
                         </property-collection>
+                        <property-collection name="94a65173-811b-4fc9-983a-a1163a3a6827">
+                            <property name="choice.expression" value="#[message.inboundProperties['http.method']=='POST']"/>
+                            <property-collection name="choice.attributes">
+<property name="expression" value="#[message.inboundProperties['http.method']=='POST']"/>
+                            </property-collection>
+                        </property-collection>
+                        <property-collection name="d400edd0-f2dd-4721-adc8-aec13f830096">
+                            <property name="choice.expression" value="#[message.inboundProperties['http.method']=='DELETE']"/>
+                            <property-collection name="choice.attributes">
+<property name="expression" value="#[message.inboundProperties['http.method']=='DELETE']"/>
+                            </property-collection>
+                        </property-collection>
                     </properties>
                 </pattern>
                 <compartment entity-id="compartment#1">
-                    <lane hadOnlyOneElement="false" index="10" isChoiceOtherwiseLane="false" entity-id="4a0d5fb8-d13a-4f5c-a1fe-de5761aff77f">
+                    <lane hadOnlyOneElement="false" index="10" isChoiceOtherwiseLane="false" entity-id="86c86493-5205-4061-8fc0-3808d00b272c">
                         <splitter index="10" name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#3">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
 <property name=";INDEX" value="10"/>
-<property-collection name="1c20ae28-b497-4f9a-ad62-591f3bffb2dc">
+<property-collection name="2c6a6072-a313-4f3a-b0bd-bfa71f5cfc7c">
     <property name="choice.otherwise" value="true"/>
     <property-collection name="choice.attributes"/>
 </property-collection>
-<property-collection name="b89a7601-92ca-49fa-a3d6-b756f6dc5267">
+<property-collection name="694c2efc-7574-4fdd-8edb-5aee0ab5636a">
     <property name="choice.expression" value="#[message.inboundProperties['username']!=null]"/>
     <property-collection name="choice.attributes">
         <property name="expression" value="#[message.inboundProperties['username']!=null]"/>
     </property-collection>
 </property-collection>
                             </properties>
+                            <description></description>
                             <pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#4">
 <properties>
     <property name=";INDEX" value="10"/>
-    <property-collection name="1c20ae28-b497-4f9a-ad62-591f3bffb2dc">
+    <property-collection name="2c6a6072-a313-4f3a-b0bd-bfa71f5cfc7c">
         <property name="choice.otherwise" value="true"/>
         <property-collection name="choice.attributes"/>
     </property-collection>
-    <property-collection name="b89a7601-92ca-49fa-a3d6-b756f6dc5267">
+    <property-collection name="694c2efc-7574-4fdd-8edb-5aee0ab5636a">
         <property name="choice.expression" value="#[message.inboundProperties['username']!=null]"/>
         <property-collection name="choice.attributes">
             <property name="expression" value="#[message.inboundProperties['username']!=null]"/>
@@ -175,7 +179,7 @@
 </properties>
                             </pattern>
                             <compartment entity-id="compartment#2">
-<lane hadOnlyOneElement="false" index="12" isChoiceOtherwiseLane="false" entity-id="b89a7601-92ca-49fa-a3d6-b756f6dc5267">
+<lane hadOnlyOneElement="false" index="12" isChoiceOtherwiseLane="false" entity-id="694c2efc-7574-4fdd-8edb-5aee0ab5636a">
     <endpoint direction="Outbound" message-exchange-pattern="OneWay" name="Mysql GET" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" entity-id="Database#2">
         <graphicalData x="0" y="0" width="0" height="0"/>
         <properties>
@@ -211,7 +215,6 @@
                 <property name="key" value="GetUsersHardcoded"/>
             </property-collection>
         </properties>
-        <description></description>
     </endpoint>
     <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#2">
         <graphicalData x="0" y="0" width="0" height="0"/>
@@ -235,7 +238,7 @@
         </properties>
     </pattern>
 </lane>
-<lane hadOnlyOneElement="false" index="18" isChoiceOtherwiseLane="true" entity-id="1c20ae28-b497-4f9a-ad62-591f3bffb2dc">
+<lane hadOnlyOneElement="false" index="18" isChoiceOtherwiseLane="true" entity-id="2c6a6072-a313-4f3a-b0bd-bfa71f5cfc7c">
     <endpoint direction="Outbound" message-exchange-pattern="OneWay" name="MySQL GEt ALL" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" entity-id="Database#3">
         <graphicalData x="0" y="0" width="0" height="0"/>
         <properties>
@@ -290,28 +293,25 @@
                             </compartment>
                         </splitter>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="23" isChoiceOtherwiseLane="false" entity-id="7befa617-6999-40a0-9e01-cf39aa806697">
+                    <lane hadOnlyOneElement="false" index="23" isChoiceOtherwiseLane="false" entity-id="d400edd0-f2dd-4721-adc8-aec13f830096">
                         <endpoint direction="Outbound" message-exchange-pattern="OneWay" name="MySQL DELETE" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" entity-id="Database#4">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
-<property name="" value=""/>
-<property name="auxiliary;erased;mimeType" value="true"/>
-<property name="businessEventsLabel" value=""/>
+<property name=""/>
+<property name="businessEventsLabel"/>
+<property name="pollingFrequency"/>
 <property name="queryTimeout" value="-1"/>
-<property name="disableTransportTransformer" value="false"/>
+<property name="disableTransportTransformer"/>
 <property name="exchange-pattern" value="request-response"/>
 <property name="queryKey" value="DELETE USER"/>
-<property name="tracking:enable-default-events" value="false"/>
-<property name="ref" value=""/>
-<property name="transformer-refs" value=""/>
-<property name="updated"/>
-<property name="address" value=""/>
-<property name="auxiliary;erased;encoding" value="true"/>
-<property name="encoding" value=""/>
-<property name="responseTransformer-refs" value=""/>
-<property name="mimeType" value=""/>
-<property name="auxiliary;erased;responseTimeout" value="true"/>
-<property name="responseTimeout" value=""/>
+<property name="tracking:enable-default-events"/>
+<property name="ref"/>
+<property name="transformer-refs"/>
+<property name="address"/>
+<property name="encoding"/>
+<property name="responseTransformer-refs"/>
+<property name="mimeType"/>
+<property name="responseTimeout"/>
 <property name="auxiliary;index" value="23"/>
 <property name="connector-ref" value="MysqlDB"/>
 <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
@@ -322,7 +322,6 @@
     <property name="key" value="DELETE USER"/>
 </property-collection>
                             </properties>
-                            <description></description>
                         </endpoint>
                         <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#4">
                             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -346,29 +345,26 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="28" isChoiceOtherwiseLane="false" entity-id="20f3346a-0ade-4917-9bda-c393ec99be5c">
+                    <lane hadOnlyOneElement="false" index="28" isChoiceOtherwiseLane="false" entity-id="94a65173-811b-4fc9-983a-a1163a3a6827">
                         <endpoint direction="Outbound" message-exchange-pattern="OneWay" name="MySQL INSERT" type="http://www.mulesoft.org/schema/mule/ee/jdbc/endpoint" entity-id="Database#5">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
-<property name="" value=""/>
-<property name="auxiliary;erased;mimeType" value="true"/>
-<property name="businessEventsLabel" value=""/>
+<property name=""/>
+<property name="businessEventsLabel"/>
+<property name="pollingFrequency"/>
 <property name="queryTimeout" value="-1"/>
-<property name="disableTransportTransformer" value="false"/>
+<property name="disableTransportTransformer"/>
 <property name="exchange-pattern" value="request-response"/>
 <property name="queryKey" value="INSERT USER"/>
-<property name="tracking:enable-default-events" value="false"/>
-<property name="ref" value=""/>
-<property name="transformer-refs" value=""/>
-<property name="updated"/>
-<property name="address" value=""/>
-<property name="auxiliary;erased;encoding" value="true"/>
-<property name="encoding" value=""/>
-<property name="responseTransformer-refs" value=""/>
+<property name="tracking:enable-default-events"/>
+<property name="ref"/>
+<property name="transformer-refs"/>
+<property name="address"/>
+<property name="encoding"/>
+<property name="responseTransformer-refs"/>
+<property name="mimeType"/>
+<property name="responseTimeout"/>
 <property name="auxiliary;index" value="28"/>
-<property name="responseTimeout" value=""/>
-<property name="auxiliary;erased;responseTimeout" value="true"/>
-<property name="mimeType" value=""/>
 <property name="connector-ref" value="MysqlDB"/>
 <property-collection name="@http://www.mulesoft.org/schema/mule/ee/jdbc/query;0">
     <property name="value" value="INSERT INTO `mdl_user` (username) values(#[message.inboundProperties['username']])"/>
@@ -378,7 +374,6 @@
     <property name="key" value="INSERT USER"/>
 </property-collection>
                             </properties>
-                            <description></description>
                         </endpoint>
                         <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#5">
                             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -402,7 +397,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="true" entity-id="213642f6-752a-490b-bc6b-30d7f68af28d"/>
+                    <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="true" entity-id="8e26285d-3acc-45e3-930e-13da16d01b64"/>
                 </compartment>
             </splitter>
         </lane>
